@@ -46,4 +46,8 @@ public class PrecomputedRMQ implements RMQ {
     public int rmq(int i, int j) {
     	return lookup[i][j];
     }
+
+    public String toString() {
+      return java.util.Arrays.deepToString(lookup);
+    }
 }

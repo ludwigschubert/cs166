@@ -58,50 +58,60 @@ public class HybridRMQ implements RMQ {
     @Override
     public int rmq(int i, int j) {
         System.out.println("Queried: (" + i + "," + j + ")");
-        if (this.topStructure == null || j - i < 2 * this.blockSize) {
+        if (this.topStructure == null) {
           return linearScan(i, j);
         } else {
 
-          // int correctResult = linearScan(i, j);
+          int length = j - i + 1;
 
-          // Compute indices
-          int iTop         = i / this.blockSize + 1;
-          int jTop         = j / this.blockSize - 1;
-          int iBottomLeft  = i;
-          int jBottomLeft  = iTop * this.blockSize - 1;
-          int iBottomRight = jTop * this.blockSize;
-          int jBottomRight = j;
+          if (length <= 2 * this.blockSize) {
 
-          System.out.println("Top: (" + iTop + "," + jTop + ") " + "Left: ("  + iBottomLeft + "," + jBottomLeft + ") " + "Right: (" + iBottomRight + "," + jBottomRight + ") ");
+            return bottomStructure_rmq(i, j);
 
-          // Compute mins
-          int   minimumIndexBottomLeft  = bottomStructure_rmq(iBottomLeft, jBottomLeft);
-          float minimumBottomLeft       = this.elems[minimumIndexBottomLeft];
-          int   minimumIndexBottomRight = bottomStructure_rmq(iBottomRight, jBottomRight);
-          float minimumBottomRight      = this.elems[minimumIndexBottomRight];
-          int   minimumIndexTopInTopStructure = this.topStructure.rmq(iTop, jTop);
-          int   minimumIndexTopInElems  = this.topElemsMinIndexes[minimumIndexTopInTopStructure];
-          float minimumTop              = this.elems[minimumIndexTopInElems];
+          } else { // spans three or more blocks
 
-          int minimumIndex;
-          // Argmin, basically
-          if (minimumBottomLeft < minimumBottomRight) {
-            if (minimumBottomLeft < minimumTop) {
-              minimumIndex = minimumIndexBottomLeft;
+            // int correctResult = linearScan(i, j);
+
+            // Compute indices
+            int iTop         = i / this.blockSize + 1;
+            int jTop         = j / this.blockSize - 1;
+            int iBottomLeft  = i;
+            int jBottomLeft  = iTop * this.blockSize - 1;
+            int iBottomRight = jTop * this.blockSize;
+            int jBottomRight = j;
+
+            System.out.println("Top: (" + iTop + "," + jTop + ") " + "Left: ("  + iBottomLeft + "," + jBottomLeft + ") " + "Right: (" + iBottomRight + "," + jBottomRight + ") ");
+
+            // Compute mins
+            int   minimumIndexBottomLeft  = bottomStructure_rmq(iBottomLeft, jBottomLeft);
+            float minimumBottomLeft       = this.elems[minimumIndexBottomLeft];
+            int   minimumIndexBottomRight = bottomStructure_rmq(iBottomRight, jBottomRight);
+            float minimumBottomRight      = this.elems[minimumIndexBottomRight];
+            int   minimumIndexTopInTopStructure = this.topStructure.rmq(iTop, jTop);
+            int   minimumIndexTopInElems  = this.topElemsMinIndexes[minimumIndexTopInTopStructure];
+            float minimumTop              = this.elems[minimumIndexTopInElems];
+
+            int minimumIndex;
+            // Argmin, basically
+            if (minimumBottomLeft < minimumBottomRight) {
+              if (minimumBottomLeft < minimumTop) {
+                minimumIndex = minimumIndexBottomLeft;
+              } else {
+                minimumIndex = minimumIndexTopInElems;
+              }
             } else {
-              minimumIndex = minimumIndexTopInElems;
+              if (minimumBottomRight < minimumTop) {
+                minimumIndex = minimumIndexBottomRight;
+              } else {
+                minimumIndex = minimumIndexTopInElems;
+              }
             }
-          } else {
-            if (minimumBottomRight < minimumTop) {
-              minimumIndex = minimumIndexBottomRight;
-            } else {
-              minimumIndex = minimumIndexTopInElems;
-            }
+
+            // System.out.println("Correct: " + correctResult + ", minimumIndex: " + minimumIndex);
+
+            return minimumIndex;
+
           }
-
-          // System.out.println("Correct: " + correctResult + ", minimumIndex: " + minimumIndex);
-
-          return minimumIndex;
 
         }
     }

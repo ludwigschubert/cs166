@@ -51,24 +51,48 @@ public class FischerHeunRMQ extends HybridRMQ {
       System.out.println( "----------------------------------------------" );
       System.out.println( "n: " + n + " blockSize: " + this.blockSize );
       System.out.println( "elems" + java.util.Arrays.toString(this.elems) );
+      for (int i = 0; i < this.bottomRMQStructures.length; i++) {
+        PrecomputedRMQ structure = this.bottomRMQStructures[i];
+        if (structure != null) {
+          System.out.println( structure.toString() );
+        };
+      }
+
       // System.out.println( "this.topElems" + java.util.Arrays.toString(this.topElems) );
       // System.out.println("Constructing cartesianTreeNumber: (" + i + "," + j + ")");
     }
 
     protected int bottomStructure_rmq(int i, int j) {
-      System.out.println( "i: " + i + " j: " + j + " blockSize: " + this.blockSize );
-      assert j - i < this.blockSize;
+      System.out.println( "blockSize: " + this.blockSize );
 
-      int blockIndex = i / this.blockSize;
-      assert blockIndex == j / this.blockSize;
+      int blockIndex1 = i / this.blockSize;
+      int blockIndex2 = j / this.blockSize;
 
+      System.out.println( "blockIndex1: " + blockIndex1 + " blockIndex2: " + blockIndex2);
+
+      if (blockIndex1 == blockIndex2) {
+        return singleBlock_rmq(blockIndex1, i, j);
+      } else {
+        int block1MinimumIndex = singleBlock_rmq(blockIndex1, i, j);
+        float block1Minimum = this.elems[block1MinimumIndex];
+        int block2MinimumIndex = singleBlock_rmq(blockIndex2, i, j);
+        float block2Minimum = this.elems[block2MinimumIndex];
+        System.out.println( "block1Minimum: " + block1MinimumIndex + "," + block1Minimum + " block2Minimum: " + + block2MinimumIndex + "," + block2Minimum);
+        if (block1Minimum < block2Minimum) {
+          return block1MinimumIndex;
+        } else {
+          return block2MinimumIndex;
+        }
+      }
+    }
+
+    private int singleBlock_rmq(int blockIndex, int i, int j) {
       int cartesianTreeNumber = this.cartesianTreeNumbers[blockIndex];
+      System.out.println( "blockIndex: " + blockIndex + " query: (" + i % this.blockSize + "," + j % this.blockSize + "), cart:" + cartesianTreeNumber);
       PrecomputedRMQ rmqStructure = this.bottomRMQStructures[cartesianTreeNumber];
-      int offset = blockIndex * this.blockSize;
-      System.out.println( "offset: " + offset);
-      int minimumIndex = rmqStructure.rmq(i - offset, j - offset); // todo
-
-      return minimumIndex + offset; // todo
+      int minimumIndex = rmqStructure.rmq(i % this.blockSize, j % this.blockSize);
+      System.out.println( "minimumIndex: " + minimumIndex + " blockIndex: " + blockIndex + " this.blockSize: " + this.blockSize);
+      return minimumIndex + blockIndex * this.blockSize;
     }
 
     private int cartesianTreeNumber(int i, int j) {
