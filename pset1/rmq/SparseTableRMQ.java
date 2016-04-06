@@ -52,6 +52,11 @@ public class SparseTableRMQ implements RMQ {
      */
     @Override
     public int rmq(int i, int j) {
+      assert i <= j;
+      assert i >= 0;
+      assert i < elems.length;
+      assert j >= i;
+      assert j < elems.length;
       // System.out.println( i ); System.out.println( j );
       // System.out.println( "kLookup: " + kLookup.toString() );
       // System.out.println( "elems: " + java.util.Arrays.toString(elems) );
