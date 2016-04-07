@@ -57,20 +57,22 @@ public class HybridRMQ implements RMQ {
      */
     @Override
     public int rmq(int i, int j) {
-        System.out.println("Queried: (" + i + "," + j + ")");
+//        System.out.println("Queried: (" + i + "," + j + ")");
         if (this.topStructure == null) {
           return linearScan(i, j);
         } else {
 
-          int length = j - i + 1;
+          int blockIndexStart = i / this.blockSize;
+          int blockIndexEnd = j / this.blockSize;
+            int numberOfBlocksSpanned = blockIndexEnd - blockIndexStart + 1;
 
-          if (length <= 2 * this.blockSize) {
+          if (numberOfBlocksSpanned <= 2) {
 
             return bottomStructure_rmq(i, j);
 
           } else { // spans three or more blocks
 
-            // int correctResult = linearScan(i, j);
+            int correctResult = linearScan(i, j);
 
             // Compute indices
             int iTop         = i / this.blockSize + 1;
@@ -106,8 +108,9 @@ public class HybridRMQ implements RMQ {
                 minimumIndex = minimumIndexTopInElems;
               }
             }
-
-            // System.out.println("Correct: " + correctResult + ", minimumIndex: " + minimumIndex);
+              if (correctResult != minimumIndex) {
+                  System.out.println("Correct: " + correctResult + ", minimumIndex: " + minimumIndex);
+              }
 
             return minimumIndex;
 
