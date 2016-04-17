@@ -1,0 +1,31 @@
+The provided starter code in main.c is a test driver that will automatically
+run your implementation against tests contained in an external test file. We've
+provided one such test file in 'test-cases'. To run the program, invoke
+
+    ./run-tests test-file-name
+    
+The actual test cases are given in the following format
+
+    pattern string
+    number of text strings
+    text string 1
+    #matches match-pos-1 match-pos-2 ... match-pos-n
+    text string 2
+    #matches match-pos-1 match-pos-2 ... match-pos-n
+    ...
+    text string m
+    #matches match-pos-1 match-pos-2 ... match-pos-n
+    
+For example, here is an annotated test case:
+
+    abab       # Pattern string is 'abab'
+    3          # There are three test cases to follow.
+    abab       # For the text string "abab"...
+    1 0        #  ...there is one match, at position 0.
+    aabb       # For the text string "aabb"...
+    0          #  ...there are no matches.
+    ababab     # For the text string "ababab"...
+    2 0 2      #  ...there are two matches, at positions 0 and 2.
+    
+We strongly recommend defining as many test cases as is reasonable, since there
+are a good number of edge cases to check.
