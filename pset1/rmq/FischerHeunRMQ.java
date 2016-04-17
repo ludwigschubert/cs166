@@ -94,8 +94,8 @@ public class FischerHeunRMQ extends HybridRMQ {
     }
 
     private int cartesianTreeNumber(int i, int j) {
-      System.out.println("elems: " + Arrays.toString(this.elems));
-      System.out.println("looking at i: " + i + " j: " + j);
+      // System.out.println("elems: " + Arrays.toString(this.elems));
+      // System.out.println("looking at i: " + i + " j: " + j);
       Stack<Float> stack = new Stack<Float>();
       int cartesianTreeNumber = 0;
       for (int index = i; index <= j; index++) {
@@ -127,7 +127,7 @@ public class FischerHeunRMQ extends HybridRMQ {
         stack.pop();
         cartesianTreeNumber = cartesianTreeNumber << 1;
       }
-      System.out.println("cartesianTreeNumber: " + cartesianTreeNumber);
+      // System.out.println("cartesianTreeNumber: " + cartesianTreeNumber);
       return cartesianTreeNumber;
     }
 }

@@ -48,6 +48,6 @@ public class PrecomputedRMQ implements RMQ {
     }
 
     public String toString() {
-      return java.util.Arrays.deepToString(lookup);
+      return "PcRMQ lookup table:" + java.util.Arrays.deepToString(lookup);
     }
 }
