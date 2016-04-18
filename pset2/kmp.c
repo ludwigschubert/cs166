@@ -15,7 +15,7 @@ struct matcher* create_matcher_for(const char* pattern) {
 
     // copy string
     aMatcher->pattern_length = strlen(pattern);
-    aMatcher->pattern = (char*) malloc(aMatcher->pattern_length * sizeof(char));
+    aMatcher->pattern = (char*) malloc(aMatcher->pattern_length + 1 * sizeof(char));
     strcpy(aMatcher->pattern, pattern);
 
     // create suffix_link array
