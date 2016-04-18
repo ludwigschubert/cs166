@@ -78,7 +78,7 @@ void for_each_match(struct matcher* matcher,
         }
         // If the current node corresponds to a match, report it
         if (current_node == matcher->pattern_length) {
-            callback(text + i - matcher->pattern_length + 1, aux);
+            callback(text + i - (matcher->pattern_length - 1), aux);
         }
     }
 }
