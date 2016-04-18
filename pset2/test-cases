@@ -6,6 +6,7 @@ aabb
 0
 abababab
 3 0 2 4
+
 cocoa
 4
 c
@@ -16,3 +17,18 @@ cococoa
 1 2
 cococoacococoa
 2 2 9
+
+aaaa
+1
+aaaaaaaaa
+6 0 1 2 3 4 5
+
+b
+3
+a
+0
+aa
+0
+aba
+1 1
+
