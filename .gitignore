@@ -1,1 +1,7 @@
 pset1/.idea
+pset2/.idea
+CMakeLists.txt
+*.o
+pset2/run-tests
+pset2/run-tests.dSYM/Contents/Info.plist
+pset2/run-tests.dSYM/Contents/Resources/DWARF/run-tests
