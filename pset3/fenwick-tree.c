@@ -1,6 +1,4 @@
 #include "fenwick-tree.h"
-#include <stddef.h>
-#include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -66,7 +64,6 @@ void recursive_increment(struct fenwick_tree* tree, size_t index, int amount, si
     } else { // continue descending
         bool go_left = index < node;
         recursive_increment(tree, index, amount, child(tree, node, go_left), go_left);
-        assert(node <= tree->size);
         tree->sub_tree_sums[node] += amount;
     }
 
@@ -107,16 +104,14 @@ int recursive_cumulative_frequency(const struct fenwick_tree* tree, size_t index
 
 bool child_exists(const struct fenwick_tree* tree, size_t parent, bool left) {
     size_t child_index = child(tree, parent, true);
-
-    bool valid_index = 1 <= child_index && child_index <= tree->size; // we ignore the 0'th index
     bool not_parent = child_index != parent;
     bool not_negative = child_index > 0; // we ignore the 0'th index
-
-    return valid_index && not_parent && not_negative;
+    return not_parent && not_negative;
 }
 
 size_t child(const struct fenwick_tree *tree, size_t parent, bool left) {
     size_t two_to_node_level = (parent & -parent) / 2; // magic; via pset
+
     size_t potential_child_node;
     if (left) {
         potential_child_node = parent - two_to_node_level;
@@ -127,31 +122,6 @@ size_t child(const struct fenwick_tree *tree, size_t parent, bool left) {
             potential_child_node = parent + two_to_node_level;
         }
     }
+    assert(1 <= potential_child_node && potential_child_node <= tree->size);
     return potential_child_node;
-}
-
-//size_t left_child(size_t parent){
-//    size_t two_to_node_level = parent & -parent; // magic; via pset
-//    return parent - two_to_node_level;
-//}
-//
-//size_t right_child(size_t parent){
-//    size_t two_to_node_level = parent & -parent; // magic; via pset
-//    return parent + two_to_node_level;
-//}
-
-/*
- * O(n) naive implementations for checking
- */
-
-void naive_increment(struct fenwick_tree* tree, size_t index, int amount) {
-    tree->histogram[index] += amount;
-}
-
-int naive_cumulative_frequency(const struct fenwick_tree* tree, size_t index) {
-    int cumulative_frequency = 0;
-    for (int i = 1; i <= index; ++i) {
-        cumulative_frequency += tree->histogram[i];
-    }
-    return cumulative_frequency;
 }
