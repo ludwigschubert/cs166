@@ -1,0 +1,4 @@
+You should only need to edit the files PerfectlyBalancedTree.[h|cc],
+WeightBalancedTree.[h|cc], and SplayTree.[h|cc].
+
+Build with `make`; run with `./run-tests`.
