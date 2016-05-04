@@ -5,19 +5,6 @@
 #include <iostream>
 #include <vector>
 
-class BinaryTreeNode {
-public:
-  BinaryTreeNode(int key) {
-    this->key = key;
-    this->left_child = nullptr;
-    this->right_child = nullptr;
-  }
-
-  int key;
-  BinaryTreeNode *left_child;
-  BinaryTreeNode *right_child;
-};
-
 class PerfectlyBalancedTree {
 public:
   /**
@@ -45,8 +32,25 @@ public:
    */
   bool contains(int key) const;
 private:
+
+  class BinaryTreeNode {
+  public:
+    BinaryTreeNode(int key) {
+      this->key = key;
+      this->left_child = nullptr;
+      this->right_child = nullptr;
+    }
+    int key;
+    BinaryTreeNode *left_child;
+    BinaryTreeNode *right_child;
+  };
+
   BinaryTreeNode *root;
 
+  /**
+   * Inserts the given key into the tree, by searching the tree and generating a new node.
+   * Duplicate values that are found during insertion are ignored.
+   */
   void insert(int key);
 
   /* Fun with C++: these next two lines disable implicitly-generated copy
