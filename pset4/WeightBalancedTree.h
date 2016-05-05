@@ -3,8 +3,19 @@
 
 #include <stddef.h>
 #include <vector>
-#include <numeric>
-#include <algorithm>
+
+class BinaryTreeNode {
+public:
+  BinaryTreeNode(int key) {
+    this->key = key;
+    this->left_child = nullptr;
+    this->right_child = nullptr;
+  }
+
+  int key;
+  BinaryTreeNode *left_child;
+  BinaryTreeNode *right_child;
+};
 
 class WeightBalancedTree {
 public:
@@ -33,39 +44,9 @@ public:
 
 private:
 
-  class BinaryTreeNode {
-  public:
-    BinaryTreeNode(int key) {
-      this->key = key;
-      this->left_child = nullptr;
-      this->right_child = nullptr;
-    }
-    int key;
-    BinaryTreeNode *left_child;
-    BinaryTreeNode *right_child;
-  };
-
   BinaryTreeNode *root;
 
-  /**
-   * Inserts the given key into the tree, by searching the tree and generating a new node.
-   * Duplicate values that are found during insertion are ignored.
-   */
   void insert(int key);
-
-  // A function to return ordered indices of a vector
-  // http://stackoverflow.com/questions/10580982/c-sort-keeping-track-of-indices
-  template <typename T>
-  std::vector<size_t> ordered(std::vector<T> const& values) {
-    std::vector<size_t> indices(values.size());
-    std::iota(begin(indices), end(indices), static_cast<size_t>(0));
-
-    std::sort(
-            begin(indices), end(indices),
-            [&](size_t a, size_t b) { return values[a] < values[b]; }
-    );
-    return indices;
-  }
   
   /* Fun with C++: these next two lines disable implicitly-generated copy
    * functions that would otherwise cause weird errors if you tried to
