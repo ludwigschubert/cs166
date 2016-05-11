@@ -2,38 +2,38 @@
 #include <cmath>
 #include "WeightBalancedTree.h"
 
-BinaryTreeNode *node_for_weights(size_t start, size_t end, const std::vector<double> &weights, double total_weight,
-                                 bool inc_left) {
+BinaryTreeNode *node_for_weights(size_t start, size_t end, const std::vector<double> &weights, double total_weight) {
 
   if (start == end) return new BinaryTreeNode(start);
 
-  double left_weight = 0.0, right_weight = 0.0, weight_diff, last_weight_diff;
+  double left_weight = 0.0, right_weight = 0.0, weight_diff = total_weight, last_weight_diff;
   size_t last_split_point, left = 0, right = 0;
+  bool inc_left = true;
 
   do {
+    last_weight_diff = weight_diff;
     if (inc_left) {
       left++;
       left_weight += weights[start + left];
+      last_split_point = left;
+      weight_diff = fabs(left_weight - (total_weight-left_weight));
     } else {
       right++;
       right_weight += weights[end - right];
+      last_split_point = right;
+      weight_diff = fabs(right_weight - (total_weight-right_weight));
     }
-
-    weight_diff = fabs(left_weight - right_weight);
-    last_weight_diff = weight_diff;
-
-    // prepare for next loop execution
     inc_left = !inc_left;
   } while (last_weight_diff >= weight_diff);
 
   BinaryTreeNode *node = new BinaryTreeNode(last_split_point);
 
-  size_t next_end = last_split_point - 1;
+  size_t next_end = last_split_point - 1; // TODO: check ranges
   if (start <= next_end) {
     node->left_child = node_for_weights(start, next_end, weights, left_weight);
   }
 
-  size_t next_start = last_split_point + 1;
+  size_t next_start = last_split_point + 1;// TODO: check ranges
   if (next_start <= end) {
     node->right_child = node_for_weights(next_start, end, weights, right_weight);
   }
@@ -59,7 +59,7 @@ WeightBalancedTree::WeightBalancedTree(const std::vector<double> &weights) {
   }
 
   // "Then, use the following recursive process"
-  this->root = node_for_weights(0, weights.size() - 1, weights, total_weight, true);
+  this->root = node_for_weights(0, weights.size() - 1, weights, total_weight);
 }
 
 /**

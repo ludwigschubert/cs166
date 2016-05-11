@@ -24,9 +24,9 @@ int main() {
   std::cout << "Correctness Tests" << std::endl;
   std::cout << "  Balanced:           " << (checkCorrectness<PerfectlyBalancedTree>(kTreeSize, kNumLookups) ? "pass" : "fail") << std::endl;
   std::cout << "  Weight-Balanced:    " << (checkCorrectness<WeightBalancedTree>(kTreeSize, kNumLookups) ? "pass" : "fail") << std::endl;
-  std::cout << "  Splay:              " << (checkCorrectness<SplayTree>(kTreeSize, kNumLookups) ? "pass" : "fail") << std::endl;
-  std::cout << "  std::set:           " << (checkCorrectness<StdSetTree>(kTreeSize, kNumLookups) ? "pass" : "fail") << std::endl;
-  std::cout << "  std::unordered_set: " << (checkCorrectness<HashTable>(kTreeSize, kNumLookups) ? "pass" : "fail") << std::endl;
+//  std::cout << "  Splay:              " << (checkCorrectness<SplayTree>(kTreeSize, kNumLookups) ? "pass" : "fail") << std::endl;
+//  std::cout << "  std::set:           " << (checkCorrectness<StdSetTree>(kTreeSize, kNumLookups) ? "pass" : "fail") << std::endl;
+//  std::cout << "  std::unordered_set: " << (checkCorrectness<HashTable>(kTreeSize, kNumLookups) ? "pass" : "fail") << std::endl;
   std::cout << std::endl;
 //
 //  std::cout << "Access Elements in Sequential Order:" << std::endl;
