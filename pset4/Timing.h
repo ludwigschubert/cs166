@@ -11,6 +11,7 @@
 #include <vector>
 #include <cmath>
 #include <stddef.h>
+#include <iostream>
 
 /* The random seed used throughout the run. */
 static const size_t kRandomSeed = 137;
@@ -171,13 +172,28 @@ bool checkCorrectness(size_t count, size_t lookups) {
    * of them.
    */
   for (size_t i = 0; i < lookups; i++) {
-    passed = passed && tree.contains(gen(engine));
+    auto key = gen(engine);
+    passed = passed && tree.contains(key);
+
+    if(!passed) {
+      std::cout << "random in-range: " << key;
+    }
   }
+
 
         /* Check out of range to make sure we don't find anything. */
   passed = passed && !tree.contains(-1);
+  if(!passed) {
+    std::cout << "contains(-1) ";
+  }
   passed = passed && !tree.contains(count);
+  if(!passed) {
+    std::cout << "tree.contains(count)";
+  }
   passed = passed && !tree.contains(count+1);
+  if(!passed) {
+    std::cout << "contains(count+1)";
+  }
 
   /* Do one final pass checking that all the values in range are indeed present
    * that we expect to be present.

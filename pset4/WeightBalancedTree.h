@@ -4,6 +4,19 @@
 #include <stddef.h>
 #include <vector>
 
+class BinaryTreeNode {
+public:
+  BinaryTreeNode(int key) {
+    this->key = key;
+    this->left_child = nullptr;
+    this->right_child = nullptr;
+  }
+
+  int key;
+  BinaryTreeNode *left_child;
+  BinaryTreeNode *right_child;
+};
+
 class WeightBalancedTree {
 public:
   /**
@@ -30,8 +43,10 @@ public:
   bool contains(int key) const;
 
 private:
-  // TODO: Add any necessary new types or fields here.
-  
+
+  BinaryTreeNode *root;
+
+  void insert(int key);
   
   /* Fun with C++: these next two lines disable implicitly-generated copy
    * functions that would otherwise cause weird errors if you tried to
