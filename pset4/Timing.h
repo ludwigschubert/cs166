@@ -12,6 +12,8 @@
 #include <cmath>
 #include <stddef.h>
 #include <iostream>
+#include <typeinfo>
+#include "SplayTree.h"
 
 /* The random seed used throughout the run. */
 static const size_t kRandomSeed = 137;
@@ -175,8 +177,10 @@ bool checkCorrectness(size_t count, size_t lookups) {
     auto key = gen(engine);
     passed = passed && tree.contains(key);
 
-    if(!passed) {
-      std::cout << "random in-range: " << key;
+    if(passed) {
+      ;
+    } else {
+      std::cout << "failed random in-range: " << key;
     }
   }
 

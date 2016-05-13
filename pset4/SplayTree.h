@@ -19,6 +19,9 @@ public:
    * storing the elements 0, 1, 2, ..., weights.size() - 1 however you'd like.
    */
   SplayTree(const std::vector<double>& weights);
+  SplayTree(int min, int max, SplayTree* parent);
+  SplayTree(int key, SplayTree* parent);
+  void construct(int min, int max, SplayTree* parent);
   
   /**
    * Cleans up all memory allocated by the tree. Remember that destructors are
@@ -34,10 +37,26 @@ public:
    * Tarjan's original paper.
    */
   bool contains(int key);
+
+  int key;
+  SplayTree *parent;
+  SplayTree *left_child;
+  SplayTree *right_child;
+  SplayTree *grand_parent();
+
+  SplayTree *top_down_splay(int key);
+
+  SplayTree* rotate_left();
+  SplayTree* rotate_right();
+
+  void dump_to_dotfile(std::string filename);
   
 private:
-  // TODO: Add any necessary new types or fields here.
 
+  SplayTree *make_tree(size_t left, size_t right);
+
+  void set_right_child(SplayTree* new_right_child);
+  void set_left_child(SplayTree* new_left_child);
 
   /* Fun with C++: these next two lines disable implicitly-generated copy
    * functions that would otherwise cause weird errors if you tried to

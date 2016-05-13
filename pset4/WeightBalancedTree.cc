@@ -13,27 +13,28 @@ BinaryTreeNode *node_for_weights(size_t start, size_t end, const std::vector<dou
   do {
     last_weight_diff = weight_diff;
     if (inc_left) {
-      left++;
       left_weight += weights[start + left];
-      last_split_point = left;
-      weight_diff = fabs(left_weight - (total_weight-left_weight));
+      last_split_point = start + left;
+      left++;
+      weight_diff = fabs(left_weight - (total_weight - left_weight));
     } else {
-      right++;
       right_weight += weights[end - right];
-      last_split_point = right;
-      weight_diff = fabs(right_weight - (total_weight-right_weight));
+      last_split_point = end - right;
+      right++;
+      weight_diff = fabs(right_weight - (total_weight - right_weight));
     }
+
     inc_left = !inc_left;
-  } while (last_weight_diff >= weight_diff);
+  } while (last_weight_diff >= weight_diff && start + left < end && end - right > start);
 
   BinaryTreeNode *node = new BinaryTreeNode(last_split_point);
 
-  size_t next_end = last_split_point - 1; // TODO: check ranges
+  size_t next_end = last_split_point - 1;
   if (start <= next_end) {
     node->left_child = node_for_weights(start, next_end, weights, left_weight);
   }
 
-  size_t next_start = last_split_point + 1;// TODO: check ranges
+  size_t next_start = last_split_point + 1;
   if (next_start <= end) {
     node->right_child = node_for_weights(next_start, end, weights, right_weight);
   }

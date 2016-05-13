@@ -1,0 +1,13 @@
+#!/bin/bash
+
+rm -rf *.pdf;
+rm -rf *.dot;
+
+make;
+./run-tests;
+
+for dot_file in *.dot; do
+	dot -Tpdf $dot_file -o $dot_file.pdf;
+done;
+
+open *.pdf
