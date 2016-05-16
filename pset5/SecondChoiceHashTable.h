@@ -2,6 +2,9 @@
 #define SecondChoiceHashTable_Included
 
 #include "Hashes.h"
+#include <vector>
+#include <forward_list>
+#include <algorithm>
 
 class SecondChoiceHashTable {
 public:
@@ -42,11 +45,13 @@ public:
    * present in the hash table, this operation is a no-op.
    */
   void remove(int key);
+
+  std::pair<size_t, size_t> indices_for_data(int data) const;
   
 private:
-  /* TODO: Add any data members or private helper functions that you'll need,
-   * then delete this comment.
-   */
+  HashFunction hashFunction1;
+  HashFunction hashFunction2;
+  std::vector<std::vector<int>> buckets;
   
   /* Fun with C++: these next two lines disable implicitly-generated copy
    * functions that would otherwise cause weird errors if you tried to
