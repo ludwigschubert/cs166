@@ -2,6 +2,9 @@
 #define ChainedHashTable_Included
 
 #include "Hashes.h"
+#include <vector>
+#include <algorithm>
+
 
 class ChainedHashTable {
 public:
@@ -42,12 +45,13 @@ public:
    * present in the hash table, this operation is a no-op.
    */
   void remove(int key);
-  
+  size_t index_for_data(int data) const;
 private:
-  /* TODO: Add any data members or private helper functions that you'll need,
-   * then delete this comment.
-   */
-  
+  HashFunction hashFunction;
+  std::vector<std::vector<int>> buckets;
+
+//  size_t numBuckets;
+
   /* Fun with C++: these next two lines disable implicitly-generated copy
    * functions that would otherwise cause weird errors if you tried to
    * implicitly copy an object of this type. You don't need to touch these
