@@ -3,6 +3,7 @@
 
 #include "Hashes.h"
 #include <vector>
+#include <forward_list>
 #include <algorithm>
 
 
@@ -48,7 +49,7 @@ public:
   size_t index_for_data(int data) const;
 private:
   HashFunction hashFunction;
-  std::vector<std::vector<int>> buckets;
+  std::vector<std::forward_list<int>> buckets;
 
 //  size_t numBuckets;
 
