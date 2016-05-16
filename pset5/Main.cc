@@ -34,9 +34,9 @@ int main() {
 //  };
 
   std::cout << "Correctness Tests" << std::endl;
-  std::cout << "  Chained:        " << (checkCorrectness<ChainedHashTable>(allHashFamilies) ? "pass" : "fail") << std::endl;
-  std::cout << "  Second-Choice:  " << (checkCorrectness<SecondChoiceHashTable>(allHashFamilies) ? "pass" : "fail") << std::endl;
-//  std::cout << "  Linear Probing: " << (checkCorrectness<LinearProbingHashTable>(allHashFamilies) ? "pass" : "fail") << std::endl;
+//  std::cout << "  Chained:        " << (checkCorrectness<ChainedHashTable>(allHashFamilies) ? "pass" : "fail") << std::endl;
+//  std::cout << "  Second-Choice:  " << (checkCorrectness<SecondChoiceHashTable>(allHashFamilies) ? "pass" : "fail") << std::endl;
+  std::cout << "  Linear Probing: " << (checkCorrectness<LinearProbingHashTable>(allHashFamilies) ? "pass" : "fail") << std::endl;
 //  std::cout << "  Robin Hood:     " << (checkCorrectness<RobinHoodHashTable>(allHashFamilies) ? "pass" : "fail") << std::endl;
 //  std::cout << "  Cuckoo:         " << (checkCorrectness<CuckooHashTable>(allHashFamilies) ? "pass" : "fail") << std::endl;
   std::cout << std::endl;

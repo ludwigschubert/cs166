@@ -130,17 +130,21 @@ bool checkCorrectness(size_t buckets, std::shared_ptr<HashFamily> family, size_t
   
   for (size_t i = 0; i < numActions; i++) {
     int value = gen(engine);
-    if ((reference.count(value) > 0) != table.contains(value)) {
+    bool should_contain = (reference.count(value) > 0);
+    if (should_contain != table.contains(value)) {
       return false;
     }
     if (coinFlip(engine)) {
+      if (value == 19159) std::cout << "insert: " << value << std::endl;
       reference.insert(value);
       table.insert(value);      
     } else {
+      if (value == 19159) std::cout << "remove: " << value << std::endl;
       reference.erase(value);
       table.remove(value);
     }
-    if ((reference.count(value) > 0) != table.contains(value)) {
+    should_contain = (reference.count(value) > 0);
+    if (should_contain != table.contains(value)) {
       return false;
     }
   }

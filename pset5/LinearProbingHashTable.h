@@ -3,6 +3,8 @@
 
 #include "Hashes.h"
 
+#include <vector>
+
 class LinearProbingHashTable {
 public:
   /**
@@ -46,12 +48,14 @@ public:
    * that was stored here has since been removed.
    */
   void remove(int key);
+
+  size_t index_for_data(int data) const;
+  size_t previous_index(size_t index) const;
+  size_t next_index(size_t index) const;
   
 private:
-  /* TODO: Add any data members or private helper functions that you'll need,
-   * then delete this comment.
-   */
-  
+  std::vector<int> buckets;
+  HashFunction hashFunction;
   
   /* Fun with C++: these next two lines disable implicitly-generated copy
    * functions that would otherwise cause weird errors if you tried to
