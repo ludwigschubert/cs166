@@ -129,7 +129,6 @@ void CuckooHashTable::rehash()
     }
   }
 
-
 }
 
 inline std::pair<size_t, size_t> CuckooHashTable::indices_for_data(int data) const

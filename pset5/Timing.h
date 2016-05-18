@@ -135,11 +135,11 @@ bool checkCorrectness(size_t buckets, std::shared_ptr<HashFamily> family, size_t
       return false;
     }
     if (coinFlip(engine)) {
-      if (value == 19159) std::cout << "insert: " << value << std::endl;
+//      if (value == 19159) std::cout << "insert: " << value << std::endl;
       reference.insert(value);
       table.insert(value);      
     } else {
-      if (value == 19159) std::cout << "remove: " << value << std::endl;
+//      if (value == 19159) std::cout << "remove: " << value << std::endl;
       reference.erase(value);
       table.remove(value);
     }

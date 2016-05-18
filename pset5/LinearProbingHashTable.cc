@@ -17,7 +17,7 @@ LinearProbingHashTable::~LinearProbingHashTable()
 void LinearProbingHashTable::insert(int data)
 {
   size_t index = this->index_for_data(data);
-  while(this->buckets[index]) {
+  while (this->buckets[index]) {
     if (this->buckets[index] == data) return; // found data; don't insert duplicate
     if (this->buckets[index] == TOMBSTONE) break; // found TOMBSTONE, insert here
     index = next_index(index); // continue scanning
@@ -28,10 +28,8 @@ void LinearProbingHashTable::insert(int data)
 bool LinearProbingHashTable::contains(int data) const
 {
   size_t index = this->index_for_data(data);
-  while(this->buckets[index]) {
-    if(this->buckets[index] == data) {
-      return true;
-    }
+  while (this->buckets[index]) {
+    if (this->buckets[index] == data) return true;
     index = this->next_index(index);
   }
   return false;
