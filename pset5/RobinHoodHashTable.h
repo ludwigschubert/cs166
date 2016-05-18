@@ -3,6 +3,8 @@
 
 #include "Hashes.h"
 
+#include <vector>
+
 class RobinHoodHashTable {
 public:
   /**
@@ -47,11 +49,15 @@ public:
    * each element up to that point backwards by one step.
    */
   void remove(int key);
+
+  inline size_t index_for_data(int data) const;
+  inline size_t previous_index(size_t index) const;
+  inline size_t next_index(size_t index) const;
+  inline size_t index_distance(size_t index1, size_t index2) const;
   
 private:
-  /* TODO: Add any data members or private helper functions that you'll need,
-   * then delete this comment.
-   */
+  std::vector<std::pair<int, size_t>> buckets;
+  HashFunction hashFunction;
   
   
   /* Fun with C++: these next two lines disable implicitly-generated copy
