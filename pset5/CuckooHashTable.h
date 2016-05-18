@@ -62,13 +62,17 @@ class CuckooHashTable {
   inline std::pair<size_t, size_t> indices_for_data(int data) const;
   
 private:
+  void init(int number_of_buckets);
+
   std::shared_ptr<HashFamily> hash_family;
   HashFunction hash_function_left;
   HashFunction hash_function_right;
   std::vector<std::pair<int, size_t>> buckets_left;
   std::vector<std::pair<int, size_t>> buckets_right;
+  size_t number_of_buckets;
 
-  void insert_in(std::pair<int, size_t> data);
+  bool insert_in(std::pair<int, size_t> data);
+  bool is_rehashing;
   bool insert_in_left;
   size_t rehash_threshold;
   size_t number_of_elements;
