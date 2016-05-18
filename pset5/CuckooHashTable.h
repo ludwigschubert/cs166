@@ -1,6 +1,7 @@
 #ifndef CuckooHashTable_Included
 #define CuckooHashTable_Included
 
+#include <vector>
 #include "Hashes.h"
 
 class CuckooHashTable {
@@ -57,11 +58,23 @@ class CuckooHashTable {
    * present in the hash table, this operation is a no-op.
    */
   void remove(int key);
+
+  inline std::pair<size_t, size_t> indices_for_data(int data) const;
   
 private:
-  /* TODO: Add any data members or private helper functions that you'll need,
-   * then delete this comment.
-   */
+  std::shared_ptr<HashFamily> hash_family;
+  HashFunction hash_function_left;
+  HashFunction hash_function_right;
+  std::vector<std::pair<int, size_t>> buckets_left;
+  std::vector<std::pair<int, size_t>> buckets_right;
+
+  void insert_in(std::pair<int, size_t> data);
+  bool insert_in_left;
+  size_t rehash_threshold;
+  size_t number_of_elements;
+  void rehash();
+//  inline std::pair<size_t, size_t> indices_for_data(int data) const;
+  constexpr size_t log2(size_t n) const;
   
   /* Fun with C++: these next two lines disable implicitly-generated copy
    * functions that would otherwise cause weird errors if you tried to
