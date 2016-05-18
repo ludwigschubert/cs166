@@ -1,7 +1,5 @@
 #include "RobinHoodHashTable.h"
 
-const int TOMBSTONE = -1;
-
 RobinHoodHashTable::RobinHoodHashTable(size_t numBuckets, std::shared_ptr<HashFamily> family) {
   this->hashFunction = family->get();
   this->buckets = std::vector<std::pair<int, size_t>>(numBuckets);

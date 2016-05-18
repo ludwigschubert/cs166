@@ -1,6 +1,6 @@
 #include "CuckooHashTable.h"
 
-constexpr size_t CuckooHashTable::log2(size_t n)
+constexpr size_t CuckooHashTable::log2(size_t n) const
 {
   return (n > 1) ? 1 + log2(n >> 1) : 0;
 }
