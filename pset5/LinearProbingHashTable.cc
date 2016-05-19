@@ -1,7 +1,7 @@
 #include <cassert>
 #include "LinearProbingHashTable.h"
 
-const int TOMBSTONE = -1;
+static int TOMBSTONE = -1;
 
 LinearProbingHashTable::LinearProbingHashTable(size_t numBuckets, std::shared_ptr<HashFamily> family)
 {
@@ -47,21 +47,12 @@ void LinearProbingHashTable::remove(int data)
   }
 }
 
-inline size_t LinearProbingHashTable::previous_index(size_t index) const
-{
-  if (index == 0) {
-    return this->buckets.size() - 1;
-  } else {
-    return index - 1;
-  }
-}
-
-inline size_t LinearProbingHashTable::next_index(size_t index) const
+size_t LinearProbingHashTable::next_index(size_t index) const
 {
   return ++index % this->buckets.size();
 }
 
-inline size_t LinearProbingHashTable::index_for_data(int data) const
+size_t LinearProbingHashTable::index_for_data(int data) const
 {
   size_t hash_value = this->hashFunction(data);
   size_t index = hash_value % this->buckets.size();

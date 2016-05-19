@@ -49,9 +49,8 @@ public:
    */
   void remove(int key);
 
-  inline size_t index_for_data(int data) const;
-  inline size_t previous_index(size_t index) const;
-  inline size_t next_index(size_t index) const;
+  size_t index_for_data(int data) const;
+  size_t next_index(size_t index) const;
   
 private:
   std::vector<int> buckets;
