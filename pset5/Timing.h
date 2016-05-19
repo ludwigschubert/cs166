@@ -13,7 +13,7 @@
 #include "Hashes.h"
 
 /* The random seed used throughout the run. */
-static const size_t kRandomSeed = 138;
+static const size_t kRandomSeed = 42;
 
 /* Multiplier used to determine the maximum integer that can be queried on an
  * operation. Higher numbers make for more likely misses in lookups.
@@ -92,10 +92,20 @@ std::tuple<double, double> time100k(double loadFactor, std::shared_ptr<HashFamil
 template<std::tuple<double, double> timing_func(double, std::shared_ptr<HashFamily>)>
 void report(double loadFactor, std::shared_ptr<HashFamily> family){
   auto times = timing_func(loadFactor, family);
-  std::cout << "    Insertion: " << std::fixed << std::setw(8) << std::setprecision(2) 
-            << std::get<0>(times) << " ns / op" << std::endl;
-  std::cout << "    Query:     " << std::fixed << std::setw(8) << std::setprecision(2) 
-            << std::get<1>(times) << " ns / op" << std::endl;
+
+  std::cout << family->name() << ";";
+  std::cout << std::fixed << std::setw(8) << std::setprecision(5) << loadFactor << ";";
+  std::cout << "Insertion" << ";";
+  std::cout << std::fixed << std::setw(8) << std::setprecision(2) << std::get<0>(times) << ";";
+
+  std::cout << std::endl;
+
+  std::cout << family->name() << ";";
+  std::cout << std::fixed << std::setw(8) << std::setprecision(5) << loadFactor << ";";
+  std::cout << "Query" << ";";
+  std::cout << std::fixed << std::setw(8) << std::setprecision(2) << std::get<1>(times) << ";";
+
+  std::cout << std::endl;
 }
 
 template <typename HT>
@@ -106,9 +116,7 @@ void doAllReports(std::shared_ptr<HashFamily> family, double loadFactor) {
 template <typename HT>
 void doAllReports(std::initializer_list<std::shared_ptr<HashFamily>> factories, std::initializer_list<double> loadFactors) {
   for (auto family : factories) {
-    std::cout << "=== " << family->name() << " ===" << std::endl;
     for (auto loadFactor : loadFactors) {
-      std::cout << "  --- Load Factor: " << std::fixed << std::setw(8) << std::setprecision(5) << loadFactor << " ---" << std::endl;
       doAllReports<HT>(family, loadFactor);
     }
   }
