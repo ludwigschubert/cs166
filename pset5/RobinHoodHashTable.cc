@@ -1,8 +1,10 @@
 #include "RobinHoodHashTable.h"
 
+static int EMPTY = -1;
+
 RobinHoodHashTable::RobinHoodHashTable(size_t numBuckets, std::shared_ptr<HashFamily> family) {
   this->hashFunction = family->get();
-  this->buckets = std::vector<std::pair<int, size_t>>(numBuckets);
+  this->buckets = std::vector<std::pair<int, size_t>>(numBuckets, std::pair<int, size_t>(EMPTY, 0));
 }
 
 RobinHoodHashTable::~RobinHoodHashTable() {
@@ -14,7 +16,7 @@ void RobinHoodHashTable::insert(int data) {
   size_t home = index;
   int data_at_index;
   size_t home_at_index;
-  while(this->buckets[index].first) {
+  while(this->buckets[index].first != EMPTY) {
     std::tie(data_at_index, home_at_index) = this->buckets[index];
     if (data_at_index == data) return; // found data; don't insert duplicate
     size_t data_at_index_distance = index_distance(index, home_at_index);
@@ -34,7 +36,7 @@ bool RobinHoodHashTable::contains(int data) const {
   size_t home = index;
   int data_at_index;
   size_t home_at_index;
-  while(this->buckets[index].first) {
+  while(this->buckets[index].first != EMPTY) {
     std::tie(data_at_index, home_at_index) = this->buckets[index];
     if (data_at_index == data) return true;
     size_t data_at_index_distance = index_distance(index, home_at_index);
@@ -59,7 +61,7 @@ void RobinHoodHashTable::remove(int data) {
     if (data_at_index == data) break;
 
     // found hole? give up search
-    if (!data_at_index) return;
+    if (data_at_index == EMPTY) return;
 
     // too far? give up search
     size_t data_at_index_distance = index_distance(index, home_at_index);
@@ -77,7 +79,7 @@ void RobinHoodHashTable::remove(int data) {
     std::tie(data_at_index, home_at_index) = this->buckets[index];
 
     // found hole? end here
-    if (!data_at_index) break;
+    if (data_at_index == EMPTY) break;
 
     // element in its place
     if (!index_distance(index, home_at_index)) break;
@@ -95,7 +97,7 @@ void RobinHoodHashTable::remove(int data) {
     index = next_index;
   }
 
-  this->buckets[shift_end] = std::pair<int, size_t>();
+  this->buckets[shift_end] = std::pair<int, size_t>(EMPTY, 0);
 
 }
 

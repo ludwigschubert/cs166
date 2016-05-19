@@ -2,11 +2,12 @@
 #include "LinearProbingHashTable.h"
 
 static int TOMBSTONE = -1;
+static int EMPTY = -2;
 
 LinearProbingHashTable::LinearProbingHashTable(size_t numBuckets, std::shared_ptr<HashFamily> family)
 {
   this->hashFunction = family->get();
-  this->buckets = std::vector<int>(numBuckets);
+  this->buckets = std::vector<int>(numBuckets, EMPTY);
 }
 
 LinearProbingHashTable::~LinearProbingHashTable()
@@ -17,7 +18,7 @@ LinearProbingHashTable::~LinearProbingHashTable()
 void LinearProbingHashTable::insert(int data)
 {
   size_t index = this->index_for_data(data);
-  while (this->buckets[index]) {
+  while (this->buckets[index] != EMPTY) {
     if (this->buckets[index] == data) return; // found data; don't insert duplicate
     if (this->buckets[index] == TOMBSTONE) break; // found TOMBSTONE, insert here
     index = next_index(index); // continue scanning
@@ -28,7 +29,7 @@ void LinearProbingHashTable::insert(int data)
 bool LinearProbingHashTable::contains(int data) const
 {
   size_t index = this->index_for_data(data);
-  while (this->buckets[index]) {
+  while (this->buckets[index] != EMPTY) {
     if (this->buckets[index] == data) return true;
     index = this->next_index(index);
   }
@@ -38,7 +39,7 @@ bool LinearProbingHashTable::contains(int data) const
 void LinearProbingHashTable::remove(int data)
 {
   size_t index = this->index_for_data(data);
-  while(this->buckets[index]) {
+  while(this->buckets[index] != EMPTY) {
     if(this->buckets[index] == data) {
       this->buckets[index] = TOMBSTONE;
       return;
