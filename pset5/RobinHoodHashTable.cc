@@ -89,7 +89,7 @@ void RobinHoodHashTable::remove(int data) {
   size_t shift_end = previous_index(index);
   size_t distance = index_distance(shift_end, shift_start);
   index = shift_start;
-  for (int count = 0; count < distance; count++) {
+  for (size_t count = 0; count < distance; count++) {
     size_t next_index = this->next_index(index);
     this->buckets[index] = this->buckets[next_index];
     index = next_index;
@@ -122,7 +122,7 @@ inline size_t RobinHoodHashTable::index_for_data(int data) const
   return index;
 }
 
-inline size_t RobinHoodHashTable::index_distance(size_t index1, size_t index2) const
+size_t RobinHoodHashTable::index_distance(size_t index1, size_t index2) const
 {
   return (index1 - index2) % this->buckets.size();
 }

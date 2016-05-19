@@ -59,8 +59,8 @@ class CuckooHashTable {
    */
   void remove(int key);
 
-  inline std::pair<size_t, size_t> indices_for_data(int data) const;
-  
+  inline std::pair<size_t, size_t> indices_for_data(int data) const;  
+
 private:
   void init(int number_of_buckets);
 
@@ -78,7 +78,6 @@ private:
   size_t number_of_elements;
   void rehash();
 //  inline std::pair<size_t, size_t> indices_for_data(int data) const;
-  constexpr size_t log2(size_t n) const;
   
   /* Fun with C++: these next two lines disable implicitly-generated copy
    * functions that would otherwise cause weird errors if you tried to
