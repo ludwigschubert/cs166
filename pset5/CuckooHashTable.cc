@@ -16,8 +16,8 @@ CuckooHashTable::CuckooHashTable(size_t numBuckets, std::shared_ptr<HashFamily> 
 void CuckooHashTable::init(int number_of_buckets)
 {
   this->number_of_buckets = number_of_buckets;
-  this->buckets_left  = std::vector<std::pair<int, size_t>>(this->number_of_buckets);
-  this->buckets_right = std::vector<std::pair<int, size_t>>(this->number_of_buckets);
+  this->buckets_left  = std::vector<std::pair<int, size_t>>(this->number_of_buckets, std::pair<int, size_t>(-1, 0));
+  this->buckets_right = std::vector<std::pair<int, size_t>>(this->number_of_buckets, std::pair<int, size_t>(-1, 0));
 
   this->hash_function_left  = this->hash_family->get();
   this->hash_function_right = this->hash_family->get();
@@ -94,10 +94,10 @@ void CuckooHashTable::remove(int data)
   size_t index_left, index_right;
   std::tie(index_left, index_right) = indices_for_data(data);
   if (this->buckets_left[index_left].first == data) {
-    this->buckets_left[index_left] = std::pair<int, size_t>();
+    this->buckets_left[index_left] = std::pair<int, size_t>(-1, 0);
     this->number_of_elements--;
   } else if (this->buckets_right[index_right].first == data) {
-    this->buckets_right[index_right] = std::pair<int, size_t>();
+    this->buckets_right[index_right] = std::pair<int, size_t>(-1, 0);
     this->number_of_elements--;
   }
 
