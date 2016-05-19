@@ -23,6 +23,7 @@ void CuckooHashTable::init(int number_of_buckets)
   this->hash_function_right = this->hash_family->get();
 
   this->insert_in_left = false;
+  this->is_rehashing = false;
   this->number_of_elements = 0;
   this->rehash_threshold = 5;
 }
